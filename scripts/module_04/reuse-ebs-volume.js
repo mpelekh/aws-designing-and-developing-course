@@ -1,28 +1,32 @@
 // Imports
-const AWS = require('aws-sdk')
+const AWS = require("aws-sdk");
 
-AWS.config.update({ region: '/* TODO: Add your region */' })
+AWS.config.update({ region: "us-east-1" });
 
 // Declare local variables
-const ec2 = new AWS.EC2()
-const volumeId = '/* TODO: Add the volume to detach/attach */'
-const instanceId = '/* TODO: Add the instance to attach to */'
+const ec2 = new AWS.EC2();
+const volumeId = "vol-0e362d7bb62d303a2";
+const instanceId = "i-038fd686471713e6e";
 
 detachVolume(volumeId)
-.then(() => attachVolume(instanceId, volumeId))
+  .then(() => attachVolume(instanceId, volumeId))
+  .then(console.log)
+  .catch((error) => console.error(error));
 
-function detachVolume (volumeId) {
-  // TODO: Configure detachVolume params
+function detachVolume(volumeId) {
+  const params = {
+    VolumeId: volumeId,
+  };
 
-  return new Promise((resolve, reject) => {
-    // TODO: Detach the volume
-  })
+  return ec2.detachVolume(params).promise();
 }
 
-function attachVolume (instanceId, volumeId) {
-  // TODO: Configure attachVolume params
+function attachVolume(instanceId, volumeId) {
+  const params = {
+    InstanceId: instanceId,
+    VolumeId: volumeId,
+    Device: "/dev/sdf",
+  };
 
-  return new Promise((resolve, reject) => {
-    // TODO: Attach the volume
-  })
+  return ec2.attachVolume(params).promise();
 }
