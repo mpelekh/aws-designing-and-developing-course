@@ -1,18 +1,18 @@
 // Imports
-const AWS = require('aws-sdk')
+const AWS = require("aws-sdk");
 
-AWS.config.update({ region: '/* TODO: Add your region */' })
+AWS.config.update({ region: "us-east-1" });
 
 // Declare local variables
-// TODO: Create new s3 object
+const s3 = new AWS.S3();
 
-createBucket('hamster-bucket/* TODO: Add a unique identifier */')
-.then((data) => console.log(data))
+createBucket("hamster-bucket-mpelekh").then((data) => console.log(data));
 
-function createBucket (bucketName) {
-  // TODO: Define params object
+function createBucket(bucketName) {
+  const params = {
+    Bucket: bucketName,
+    ACL: "public-read",
+  };
 
-  return new Promise((resolve, reject) => {
-    // TODO: Create s3 bucket
-  })
+  return s3.createBucket(params).promise();
 }
